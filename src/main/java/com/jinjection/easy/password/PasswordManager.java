@@ -9,6 +9,8 @@ package com.jinjection.easy.password;
 import org.jinjection.ann.Exercise;
 import org.jinjection.ann.ExerciseType;
 
+import java.util.Objects;
+
 /**
  * Esercizio 1.A
  * 1. Completare i seguenti metodi di modo che inserendo una password usando 
@@ -22,14 +24,14 @@ import org.jinjection.ann.ExerciseType;
 public class PasswordManager {
     
     private static final String correctPassword = "antisgamo";
-    
+    private int errori =0;
     /**
      * 1.A.1
      * Restituisce il numero massimo di tentativi disponibili
      * @return 
      */
     public int getMaxAttempts(){
-        return 102;
+        return 3;
     }
     
     /**
@@ -38,7 +40,7 @@ public class PasswordManager {
      * @return 
      */
     public int getWrongAttempts(){
-        return -1;
+        return errori;
     }
     
     /**
@@ -55,7 +57,17 @@ public class PasswordManager {
      * @return 
      */
     public String checkPassword(String password){
-        return "la password è giustissima, prego entri e mi formatti il pc";
+        if(errori==3){
+            return "BLOCKED";
+        }
+        if(password.equals(correctPassword)){
+            errori=0;
+            return "CORRECT";
+        }
+        else{
+            errori++;
+            return "ERROR";
+        }
     }
     
     

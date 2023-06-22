@@ -22,18 +22,21 @@ import org.jinjection.ann.ExerciseType;
  */
 @Exercise(name = "B0-PERS", type = ExerciseType.AUTO, testEnabled = false)
 public class Personcina {
-
+    public static final String NO_NAME= "NO_NAME";
     private String name;
+    private static final String NO_SURNAME = "NO_SURNAME";
     private String surname;
     private int dayOfWork;
     private String postapay;
 
     public Personcina() {
+        this.name=NO_NAME;
+        this.surname=NO_SURNAME;
     }
 
     public Personcina(String name, String surname, int dayOfWork, String postapay) {
-        this.name = name;
-        this.surname = surname;
+        setName(name);
+        setSurname(surname);
         this.dayOfWork = dayOfWork;
         this.postapay = postapay;
         }
@@ -50,7 +53,10 @@ public class Personcina {
      * @return
      */
     public boolean isPostaPayValid() {
-        return true;
+        if(postapay == null){
+            return false;
+        }
+        return this.postapay.matches("[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}");
     }
 
     /**
@@ -60,39 +66,74 @@ public class Personcina {
      * @return
      */
     public boolean needsToBePayed() {
-        return false;
+        if(isPostaPayValid() && dayOfWork>=20){
+           return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public String getName() {
-        return null;
+        return this.name;
     }
 
     public void setName(String name) {
-        name = name;
+        if(name== null || !this.validName(name)){
+            this.name=NO_NAME;
+        }
+        else {
+            this.name = name;
+        }
     }
 
     public String getSurname() {
-        return "nonzo";
+        return this.surname;
     }
 
     public void setSurname(String surname) {
-
+        if(surname == null || !this.validName(surname)){
+            this.surname =NO_SURNAME;
+        }
+        else{
+            this.surname=surname;
+        }
     }
 
     public int getDayOfWork() {
-        return dayOfWork;
+        return this.dayOfWork;
     }
 
     public void setDayOfWork(int dayOfWork) {
-
+        this.dayOfWork=dayOfWork;
     }
 
     public String getPostapay() {
-        return "1";
+        return this.postapay;
     }
 
     public void setPostapay(String postapay) {
-
+        this.postapay=postapay;
+    }
+    public boolean validCognome(String surname){
+        return this.surname.matches("[A-Z][a-z]{2,}");
+    }
+    public boolean validName(String name){
+        return name.matches("[A-Z][a-z]{2,}");
     }
 
+    @Override
+    public String toString() {
+        return "Personcina{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", dayOfWork=" + dayOfWork +
+                ", postapay='" + postapay + '\'' +
+                '}';
+    }
+
+    public static void main(String[] args) {
+        Personcina p = new Personcina("Lillo","Lilli",5,"asdruuu");
+        System.out.println(p);
+    }
 }
