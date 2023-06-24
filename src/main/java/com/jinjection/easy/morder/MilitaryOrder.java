@@ -63,18 +63,20 @@ public class MilitaryOrder {
      * allora sarà un codice di lancio viceversa sarà un codice di ripristino (false).
      */
     public boolean isLaunchOrder() {
-        if (this == null) {
-            return true;
-        } else {
-            return true;
-        }
+        //  AABABABABABNUC2AB
+        int nucStart = this.order.indexOf("NUC");
+        String afterNUC3 = this.order.substring(nucStart+3,nucStart+6);
+        return afterNUC3.matches(".*[A-Za-z].*");
     }
 
     //Questo metodo ritorna true se sia commander che order sono validi, false viceversa. 
-    public boolean isValid() {
+    public boolean isCommValid() {
 
-        return this.commander!=null && this.commander.matches("(G|T)en\\.\\s[A-Z][a-z]{3,}") &&isOrderValid(this.order);
+        return this.commander!=null && this.commander.matches("(G|T)en\\.\\s[A-Z][a-z]{3,}");
 
+    }
+    public boolean isValid(){
+        return this.commander!=null && this.commander.matches("(G|T)en\\.\\s[A-Z][a-z]{3,}")  && isOrderValid(this.order);
     }
     public boolean isOrderValid(String order){
         return order!=null && order.matches(".*NUC[A-z0-9]{3}.*");
@@ -87,13 +89,13 @@ public class MilitaryOrder {
 
     public void setCommander(String commander) {
         this.commander = commander;
-        if (!this.isValid()) {
+        if (!this.isCommValid()) {
            this.commander= INVALID ;
         }
     }
 
     public String getOrder() {
-        return this.order;
+       return this.order;
     }
 
     public void setOrder(String order) {
@@ -103,6 +105,18 @@ public class MilitaryOrder {
         else{
             this.order= INVALID;
         }
+    }
+
+    public static void main(String[] args) {
+
+        String order = "ABVBABANUC123ASDADASD";
+        int nucStart = order.indexOf("NUC");
+        String afterNUC3 = order.substring(nucStart+3,nucStart+6);
+
+        System.out.println(afterNUC3);
+
+
+
     }
 
 }
